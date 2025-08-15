@@ -2,29 +2,68 @@
 import PCard from 'primevue/card';
 import PDataTable from 'primevue/datatable';
 import PColumn from 'primevue/column';
+import PTag from 'primevue/tag';
 
 import { useTimerStore } from '@/store/modules/timerStore';
+import CardContainer from './CardContainer.vue';
 
 const timerStore = useTimerStore();
+
+function getTagSeverity(type: string) {
+  if (type === 'Pomodoro') {
+    return 'warn';
+  } else if (type === 'Short Break') {
+    return 'info';
+  } else {
+    return 'success';
+  }
+}
 </script>
 
 <template>
-  <PCard class="pm-sessions">
+  <CardContainer class="pm-sessions">
     <template #header>
-      <h2 class="ml-4 mt-4">Sessions</h2>
+      <h2 class="ml-4">Sessions</h2>
     </template>
     <template #content>
-      <PDataTable :value="timerStore.state.session" style="height: 300px">
-        <PColumn field="label" />
-        <PColumn field="label" />
+      <PDataTable
+        :value="timerStore.state.session"
+        scrollable
+        scrollHeight="250px"
+        class="pm-sessions__table"
+      >
+        <PColumn field="time" header="Time">
+          <template #body="{ data }">
+            <PTag :value="data.time" :severity="getTagSeverity(data.type)" />
+          </template>
+        </PColumn>
+        <PColumn field="label" header="Type">
+          <template #body="{ data }">
+            <PTag :value="data.label" :severity="getTagSeverity(data.type)" />
+          </template>
+        </PColumn>
+        <PColumn field="duration" header="Duration">
+          <template #body="{ data }">
+            <PTag
+              :value="data.duration"
+              :severity="getTagSeverity(data.type)"
+            />
+          </template>
+        </PColumn>
       </PDataTable>
     </template>
-  </PCard>
+  </CardContainer>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .pm-sessions {
-  width: 465px;
-  height: 385px;
+  @media screen and (min-width: 576px) {
+    &__option {
+      &-text,
+      &-icon {
+        font-size: 0.5em;
+      }
+    }
+  }
 }
 </style>

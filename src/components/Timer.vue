@@ -3,10 +3,7 @@ import TimePicker from './TimePicker.vue';
 </script>
 
 <template>
-  <div
-    class="flex justify-content-center align-items-center"
-    style="height: 200px"
-  >
+  <div class="flex justify-content-center align-items-center">
     <div class="pm-timer flex justify-content-center align-items-center">
       <TimePicker />
     </div>
@@ -15,9 +12,7 @@ import TimePicker from './TimePicker.vue';
 
 <style scoped lang="scss">
 .pm-timer {
+  margin: 2rem 0;
   width: 100%;
-  font-size: 100px;
-  font-weight: bold;
-  margin: auto 0;
 }
 </style>
