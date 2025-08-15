@@ -9,8 +9,6 @@ const timerStore = useTimerStore();
 const label = computed<string>(() => {
   if (timerStore.state.isRunning) {
     return 'Stop';
-  } else if (timerStore.needReset) {
-    return 'Reset';
   } else {
     return 'Start';
   }
@@ -19,22 +17,23 @@ const label = computed<string>(() => {
 const severity = computed<string>(() => {
   if (timerStore.state.isRunning) {
     return 'danger';
-  } else if (timerStore.needReset) {
-    return 'info';
   } else {
-    return 'outlined';
+    return 'info';
   }
 });
 
 const action = computed<Function>(() => {
   if (timerStore.state.isRunning) {
     return timerStore.stopClockCountdown;
-  } else if (timerStore.needReset) {
-    return timerStore.resetTimer;
   } else {
     return timerStore.startClockCountdown;
   }
 });
+
+function setTimer() {
+  timerStore.setTimer(timerStore.state.defaultTimes[timerStore.state.type]);
+  timerStore.state.isEditing = !timerStore.state.isEditing;
+}
 </script>
 
 <template>
@@ -53,7 +52,7 @@ const action = computed<Function>(() => {
       severity="success"
       variant="outlined"
       style="font-size: 3em"
-      @click="timerStore.state.isEditing = !timerStore.state.isEditing"
+      @click="setTimer"
     />
   </div>
 </template>

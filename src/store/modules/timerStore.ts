@@ -21,6 +21,8 @@ type TimerState = {
   timer: Timer;
   type: TimerType;
   session: SessionEvent[];
+  pomodoros: number;
+  defaultTimes: Record<TimerType, Timer>;
 };
 
 export const useTimerStore = defineStore('timerStore', () => {
@@ -33,26 +35,24 @@ export const useTimerStore = defineStore('timerStore', () => {
     },
     type: 'Pomodoro',
     session: [],
-  });
-
-  const defaultTimes = reactive<Record<TimerType, Timer>>({
-    Pomodoro: {
-      minutes: 25,
-      seconds: 0,
-    },
-    'Short Break': {
-      minutes: 5,
-      seconds: 0,
-    },
-    'Long Break': {
-      minutes: 15,
-      seconds: 0,
+    pomodoros: 0,
+    defaultTimes: {
+      Pomodoro: {
+        minutes: 25,
+        seconds: 0,
+      },
+      'Short Break': {
+        minutes: 5,
+        seconds: 0,
+      },
+      'Long Break': {
+        minutes: 15,
+        seconds: 0,
+      },
     },
   });
 
   const interval = ref<number | null>(null);
-
-  const pomodoros = ref<number>(0);
 
   const time = computed<string>(() =>
     dayjs()
@@ -60,29 +60,6 @@ export const useTimerStore = defineStore('timerStore', () => {
       .second(state.timer.seconds)
       .format('mm:ss'),
   );
-
-  const needReset = computed<boolean>(() => {
-    return (
-      state.timer.minutes !== defaultTimes[state.type].minutes ||
-      state.timer.seconds !== defaultTimes[state.type].seconds
-    );
-  });
-
-  function setMinutes(minutes: number) {
-    state.timer.minutes = minutes;
-  }
-
-  function setSeconds(seconds: number) {
-    state.timer.seconds = seconds;
-  }
-
-  function addMinutes() {
-    state.timer.minutes++;
-  }
-
-  function addSeconds() {
-    state.timer.seconds++;
-  }
 
   function startClockCountdown() {
     state.isRunning = true;
@@ -107,14 +84,16 @@ export const useTimerStore = defineStore('timerStore', () => {
     state.isRunning = false;
   }
 
+  function setTimer(timer: Timer) {
+    state.timer = { ...timer };
+  }
+
   function resetTimer() {
-    state.isRunning = false;
-    state.timer = defaultTimes[state.type];
-    state.timer.minutes = state.timer.minutes;
-    state.timer.seconds = state.timer.seconds;
+    setTimer(state.defaultTimes[state.type]);
   }
 
   function setTimerType(type: TimerType) {
+    resetTimer();
     state.type = type;
     stopClockCountdown();
     resetTimer();
@@ -122,7 +101,13 @@ export const useTimerStore = defineStore('timerStore', () => {
 
   function checkTimer() {
     if (state.type === 'Pomodoro') {
-      setTimerType(pomodoros.value === 4 ? 'Long Break' : 'Short Break');
+      if (state.pomodoros === 4) {
+        state.pomodoros = 0;
+        setTimerType('Long Break');
+      } else {
+        setTimerType('Short Break');
+      }
+      state.pomodoros++;
     } else {
       setTimerType('Pomodoro');
     }
@@ -130,14 +115,10 @@ export const useTimerStore = defineStore('timerStore', () => {
 
   return {
     state,
-    needReset,
     time,
-    setMinutes,
-    setSeconds,
-    addMinutes,
-    addSeconds,
     startClockCountdown,
     stopClockCountdown,
+    setTimer,
     resetTimer,
     setTimerType,
   };

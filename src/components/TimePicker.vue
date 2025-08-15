@@ -1,20 +1,14 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
 import { useTimerStore } from '@/store/modules/timerStore';
 
 import PInputNumber from 'primevue/inputnumber';
 
 const timerStore = useTimerStore();
 
-watch(
-  () => timerStore.state.timer.seconds,
-  (newVal) => {
-    if (newVal >= 60) {
-      timerStore.state.timer.seconds = 60;
-      timerStore.state.timer.seconds = 0;
-    }
-  },
-);
+function setTime() {
+  timerStore.state.isEditing = !timerStore.state.isEditing;
+  timerStore.setTimer(timerStore.state.defaultTimes[timerStore.state.type]);
+}
 </script>
 
 <template>
@@ -25,13 +19,13 @@ watch(
   >
     {{ timerStore.time }}
   </span>
-  <div v-else class="flex align-items-center gap-3">
+  <div v-else class="flex align-items-center gap-3" @keyup.enter="setTime">
     <PInputNumber
-      v-model="timerStore.state.timer.minutes"
+      v-model="timerStore.state.defaultTimes[timerStore.state.type].minutes"
       showButtons
       buttonLayout="vertical"
       :min="0"
-      :max="60"
+      :max="59"
     >
       <template #incrementicon>
         <span class="pi pi-plus" />
@@ -42,7 +36,7 @@ watch(
     </PInputNumber>
 
     <PInputNumber
-      v-model="timerStore.state.timer.seconds"
+      v-model="timerStore.state.defaultTimes[timerStore.state.type].seconds"
       showButtons
       buttonLayout="vertical"
       :min="0"
