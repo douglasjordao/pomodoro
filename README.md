@@ -2,6 +2,8 @@
 
 This project is a simple Pomodoro timer built with [Vue 3](https://vuejs.org/), TypeScript and [Vite](https://vitejs.dev/). It lets you manage focused work sessions and scheduled breaks using the Pomodoro technique.
 
+You can access the app running at [https://pomodoro-virid-six.vercel.app/](https://pomodoro-virid-six.vercel.app/).
+
 ## Features
 - Start, pause and reset countdowns for Pomodoro, short break and long break sessions
 - Automatic session switching and tracking of completed sessions
