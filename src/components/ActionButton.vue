@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useTimerStore } from '@/store/modules/timerStore';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import type { TimerType } from '@/types';
 
 import PButton from 'primevue/button';

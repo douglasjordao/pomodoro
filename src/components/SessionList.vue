@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import PCard from 'primevue/card';
 import PDataTable from 'primevue/datatable';
 import PColumn from 'primevue/column';
 import PTag from 'primevue/tag';
