@@ -1,5 +1,31 @@
-# Vue 3 + TypeScript + Vite
+# Pomodoro Timer
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This project is a simple Pomodoro timer built with [Vue 3](https://vuejs.org/), TypeScript and [Vite](https://vitejs.dev/). It lets you manage focused work sessions and scheduled breaks using the Pomodoro technique.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+If you'd like to try it without setting up the project locally, you can use the hosted version at [https://pomodoro-virid-six.vercel.app/](https://pomodoro-virid-six.vercel.app/).
+
+## Features
+- Start, pause and reset countdowns for Pomodoro, short break and long break sessions
+- Automatic session switching and tracking of completed sessions
+- Responsive user interface built with PrimeVue components
+
+## Getting Started
+1. Install dependencies:
+   ```bash
+   yarn install
+   ```
+2. Start the development server:
+   ```bash
+   yarn dev
+   ```
+   The app will be available at [http://localhost:5173](http://localhost:5173).
+3. Build for production:
+   ```bash
+   yarn build
+   ```
+
+## Usage
+1. Choose a session type (Pomodoro, Short Break or Long Break) using the filter.
+2. Press **Start** to begin the countdown. The timer will automatically switch to the next session when time is up.
+3. Review the session history to track your productivity throughout the day.
+
