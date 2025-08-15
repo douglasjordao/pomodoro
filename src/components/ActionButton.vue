@@ -1,10 +1,61 @@
 <script setup lang="ts">
 import { useTimerStore } from '@/store/modules/timerStore';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import type { TimerType } from '@/types';
 
 import PButton from 'primevue/button';
 
+type ButtonPassThrough = {
+  root: {
+    style: {
+      border: string;
+      color: string;
+    };
+  };
+};
+
+type PassThroughType = Record<TimerType, ButtonPassThrough>;
+
 const timerStore = useTimerStore();
+
+const buttonPassThrough = computed<PassThroughType>(() => ({
+  Pomodoro: {
+    root: {
+      style: {
+        border: `1px solid var(${
+          timerStore.state.isRunning ? '--p-red-500' : '--p-yellow-500'
+        })`,
+        color: `var(${
+          timerStore.state.isRunning ? '--p-white-500' : '--p-yellow-500'
+        })`,
+      },
+    },
+  },
+  'Short Break': {
+    root: {
+      style: {
+        border: `1px solid var(${
+          timerStore.state.isRunning ? '--p-red-500' : '--p-sky-500'
+        })`,
+        color: `var(${
+          timerStore.state.isRunning ? '--p-white-500' : '--p-sky-500'
+        })`,
+      },
+    },
+  },
+  'Long Break': {
+    root: {
+      style: {
+        border: `1px solid var(${
+          timerStore.state.isRunning ? '--p-red-500' : '--p-green-500'
+        })`,
+        color: `var(${
+          timerStore.state.isRunning ? '--p-white-500' : '--p-green-500'
+        })`,
+      },
+    },
+  },
+}));
 
 const label = computed<string>(() => {
   if (timerStore.state.isRunning) {
@@ -40,21 +91,43 @@ function setTimer() {
   <PButton
     v-if="!timerStore.state.isEditing"
     :label="label"
-    style="font-size: 3em"
     :severity="severity"
-    variant="outlined"
+    class="pm-action-button"
+    :variant="timerStore.state.isRunning ? 'filled' : 'outlined'"
+    :pt="buttonPassThrough[timerStore.state.type]"
     @click="action()"
   />
   <div v-else class="flex align-items-center justify-content-center gap-3">
     <PButton
       label="Confirm"
-      class="w-full"
       severity="success"
       variant="outlined"
-      style="font-size: 3em"
+      class="pm-action-button"
+      :pt="buttonPassThrough[timerStore.state.type]"
       @click="setTimer"
     />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.pm-action-button {
+  font-size: 1em;
+  width: 100%;
+
+  @media screen and (min-width: 576px) {
+    font-size: 3em;
+  }
+
+  &--pomodoro {
+    color: var(--p-yellow-500);
+  }
+
+  &--short-break {
+    color: var(--p-sky-500);
+  }
+
+  &--long-break {
+    color: var(--p-green-500);
+  }
+}
+</style>

@@ -2,10 +2,10 @@
 import { onBeforeMount } from 'vue';
 import { useTimerStore } from '@/store/modules/timerStore';
 
-import PCard from 'primevue/card';
 import Timer from './Timer.vue';
 import Filter from './Filter.vue';
 import ActionButton from './ActionButton.vue';
+import CardContainer from './CardContainer.vue';
 
 const timerStore = useTimerStore();
 
@@ -15,10 +15,11 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <PCard class="pm-clock">
+  <CardContainer class="pm-clock">
     <template #title>
       <Filter />
     </template>
+
     <template #content>
       <Timer />
     </template>
@@ -26,12 +27,7 @@ onBeforeMount(() => {
     <template #footer>
       <ActionButton class="mt-3 w-full" />
     </template>
-  </PCard>
+  </CardContainer>
 </template>
 
-<style lang="scss" scoped>
-.pm-clock {
-  width: 465px;
-  height: 385px;
-}
-</style>
+<style lang="scss" scoped></style>

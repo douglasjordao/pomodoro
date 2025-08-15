@@ -12,6 +12,7 @@ type Timer = {
 type SessionEvent = {
   type: TimerType;
   label: string;
+  duration: string;
   time: string;
 };
 
@@ -93,13 +94,25 @@ export const useTimerStore = defineStore('timerStore', () => {
   }
 
   function setTimerType(type: TimerType) {
-    resetTimer();
     state.type = type;
     stopClockCountdown();
     resetTimer();
   }
 
+  function addSessionHistory(sessionEvent: SessionEvent) {
+    state.session.push(sessionEvent);
+  }
+
   function checkTimer() {
+    resetTimer();
+
+    addSessionHistory({
+      type: state.type,
+      label: state.type,
+      duration: time.value,
+      time: dayjs().format('HH:mm'),
+    });
+
     if (state.type === 'Pomodoro') {
       if (state.pomodoros === 4) {
         state.pomodoros = 0;
@@ -119,7 +132,6 @@ export const useTimerStore = defineStore('timerStore', () => {
     startClockCountdown,
     stopClockCountdown,
     setTimer,
-    resetTimer,
     setTimerType,
   };
 });
