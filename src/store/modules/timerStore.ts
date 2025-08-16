@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia';
 import { computed, reactive, ref } from 'vue';
+import { useNotification } from '@/composables/useNotification';
+
 import type { TimerType } from '@/types';
 
 import dayjs from 'dayjs';
@@ -52,6 +54,8 @@ export const useTimerStore = defineStore('timerStore', () => {
       },
     },
   });
+
+  const notification = useNotification();
 
   const interval = ref<number | null>(null);
 
@@ -114,15 +118,24 @@ export const useTimerStore = defineStore('timerStore', () => {
     });
 
     if (state.type === 'Pomodoro') {
-      if (state.pomodoros === 4) {
+      if (state.pomodoros === 3) {
         state.pomodoros = 0;
         setTimerType('Long Break');
+        notification.notify('Pomodoro', {
+          body: "It's time for a long break!",
+        });
       } else {
         setTimerType('Short Break');
+        notification.notify('Pomodoro', {
+          body: "It's time for a short break!",
+        });
       }
       state.pomodoros++;
     } else {
       setTimerType('Pomodoro');
+      notification.notify('Pomodoro', {
+        body: "It's time to focus!",
+      });
     }
   }
 

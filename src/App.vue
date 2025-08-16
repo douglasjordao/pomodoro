@@ -2,6 +2,7 @@
 import Clock from './components/Clock.vue';
 import SessionList from './components/SessionList.vue';
 import PToast from 'primevue/toast';
+import PConfirmDialog from 'primevue/confirmdialog';
 
 import logo from './assets/logo.png';
 import Explanation from '@/components/Explanation.vue';
@@ -43,6 +44,7 @@ import Explanation from '@/components/Explanation.vue';
   </div>
 
   <PToast />
+  <PConfirmDialog />
 </template>
 
 <style>
