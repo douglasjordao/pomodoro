@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { useTimerStore } from '@/store/modules/timerStore';
 import { computed } from 'vue';
-import { useConfirm } from 'primevue';
 
 import type { TimerType } from '@/types';
 
 import PButton from 'primevue/button';
-import { useNotification } from '@/composables/useNotification';
 
 type ButtonPassThrough = {
   root: {
@@ -20,8 +18,6 @@ type ButtonPassThrough = {
 type PassThroughType = Record<TimerType, ButtonPassThrough>;
 
 const timerStore = useTimerStore();
-const confirm = useConfirm();
-const notification = useNotification();
 
 const buttonPassThrough = computed<PassThroughType>(() => ({
   Pomodoro: {
@@ -78,39 +74,9 @@ const severity = computed<string>(() => {
   }
 });
 
-function showNotificationDisclaimer() {
-  confirm.require({
-    message: `This app can show reminders as notifications on your computer.
-      For a better experience, we recommend allowing them. If you agree, your browser will ask for permission first.`,
-    header: 'Notifications',
-    icon: 'pi pi-exclamation-triangle',
-    rejectProps: {
-      label: 'Cancel',
-      severity: 'secondary',
-      outlined: true,
-    },
-    acceptProps: {
-      label: 'Accept',
-      outlined: true,
-    },
-    accept: () => {
-      notification.askPermission();
-    },
-  });
-}
-
 const action = computed<Function>(() => {
   if (!timerStore.state.isRunning) {
-    if (
-      notification.isNavigatorSupported() &&
-      !notification.isPermissionGranted()
-    ) {
-      showNotificationDisclaimer();
-
-      return () => {};
-    } else {
-      return timerStore.startClockCountdown;
-    }
+    return timerStore.startClockCountdown;
   } else {
     return timerStore.stopClockCountdown;
   }

@@ -67,6 +67,15 @@ export const useTimerStore = defineStore('timerStore', () => {
   );
 
   function startClockCountdown() {
+    if (
+      notification.isNavigatorSupported() &&
+      !notification.isPermissionGranted() &&
+      !notification.procedeWithoutNotification.value
+    ) {
+      notification.showNotificationDisclaimer();
+      return;
+    }
+
     state.isRunning = true;
 
     interval.value = setInterval(() => {
