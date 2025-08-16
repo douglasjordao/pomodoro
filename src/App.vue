@@ -10,9 +10,11 @@ import Explanation from '@/components/Explanation.vue';
 
 <template>
   <div class="pb-6">
-    <div :class="['flex', 'justify-content-center', 'align-items-center']">
-      <img :src="logo" alt="Pomodoro" style="height: 128px; width: 128px" />
-      <h1 class="font-bold text-7xl lg:text-8xl">Pomodoro</h1>
+    <div
+      :class="['flex', 'justify-content-center', 'align-items-center', 'gap-3']"
+    >
+      <img :src="logo" alt="Pomodoro" class="pm-logo" />
+      <h1 class="pm-title">Pomodoro</h1>
     </div>
     <div
       :class="[
@@ -44,7 +46,7 @@ import Explanation from '@/components/Explanation.vue';
   </div>
 
   <PToast />
-  <PConfirmDialog />
+  <PConfirmDialog class="pm-confirm-dialog" />
 </template>
 
 <style>
@@ -57,6 +59,34 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.pm-title {
+  font-size: 2em;
+  margin: 2rem 0;
+  text-align: center;
+
+  @media screen and (min-width: 576px) {
+    font-size: 5em;
+  }
+}
+
+.pm-logo {
+  width: 72px;
+  height: 72px;
+
+  @media screen and (min-width: 576px) {
+    width: 128px;
+    height: 128px;
+  }
+}
+
+.pm-confirm-dialog {
+  width: 300px;
+
+  @media screen and (min-width: 576px) {
+    width: 465px;
+  }
 }
 </style>
 

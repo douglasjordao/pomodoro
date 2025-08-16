@@ -80,10 +80,19 @@ const severity = computed<string>(() => {
 
 function showNotificationDisclaimer() {
   confirm.require({
-    message:
-      'This app can show reminders as notifications on your computer. For a better experience, we recommend allowing them. If you agree, your browser will ask for permission first.',
+    message: `This app can show reminders as notifications on your computer.
+      For a better experience, we recommend allowing them. If you agree, your browser will ask for permission first.`,
     header: 'Notifications',
     icon: 'pi pi-exclamation-triangle',
+    rejectProps: {
+      label: 'Cancel',
+      severity: 'secondary',
+      outlined: true,
+    },
+    acceptProps: {
+      label: 'Accept',
+      outlined: true,
+    },
     accept: () => {
       notification.askPermission();
     },
