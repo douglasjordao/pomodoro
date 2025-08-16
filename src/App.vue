@@ -47,6 +47,26 @@ import Explanation from '@/components/Explanation.vue';
 
   <PToast />
   <PConfirmDialog class="pm-confirm-dialog" />
+
+  <footer class="flex justify-content-center align-items-center gap-3">
+    <p>© 2025 Made by Douglas Jordão</p>
+    <div class="flex gap-3">
+      <a
+        href="https://linkedin.com/in/douglasjordao/"
+        target="_blank"
+        aria-label="LinkedIn"
+      >
+        <i class="pi pi-linkedin"></i>
+      </a>
+      <a
+        href="https://github.com/douglasjordao"
+        target="_blank"
+        aria-label="GitHub"
+      >
+        <i class="pi pi-github"></i>
+      </a>
+    </div>
+  </footer>
 </template>
 
 <style>

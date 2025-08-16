@@ -1,14 +1,12 @@
 import { useToast } from 'primevue';
 import { useConfirm } from 'primevue';
-import { computed } from 'vue';
+import { ref } from 'vue';
 
 type AppNotification = {
   body: string;
 };
 
-const procedeWithoutNotification = computed<boolean>(
-  () => Notification.permission === 'denied',
-);
+const procedeWithoutNotification = ref<boolean>();
 
 export const useNotification = () => {
   const confirm = useConfirm();
@@ -35,6 +33,8 @@ export const useNotification = () => {
           'It looks like notifications have been blocked for this site. To receive alerts, please enable notifications again in your browser settings or reset the permissions.',
         closable: true,
       });
+
+      procedeWithoutNotification.value = true;
 
       return;
     }
@@ -75,6 +75,9 @@ export const useNotification = () => {
       },
       accept: () => {
         askPermission();
+      },
+      reject: () => {
+        procedeWithoutNotification.value = true;
       },
     });
   }
