@@ -3,9 +3,18 @@ import { useTimerStore } from '@/store/modules/timerStore';
 import { useToast } from 'primevue/usetoast';
 
 import PInputNumber from 'primevue/inputnumber';
+import { computed } from 'vue';
 
 const timerStore = useTimerStore();
 const toast = useToast();
+
+const minutes = computed<number>(() => {
+  return timerStore.state.defaultTimes[timerStore.state.type].minutes;
+});
+
+const seconds = computed<number>(() => {
+  return timerStore.state.defaultTimes[timerStore.state.type].seconds;
+});
 
 function editTime() {
   if (!timerStore.state.isRunning) {
@@ -16,8 +25,8 @@ function editTime() {
 function setTime() {
   if (!timerStore.state.isRunning) {
     if (
-      timerStore.state.defaultTimes[timerStore.state.type].minutes === 0 &&
-      timerStore.state.defaultTimes[timerStore.state.type].seconds === 0
+      (minutes.value === 0 || minutes.value === null) &&
+      (seconds.value === 0 || seconds.value === null)
     ) {
       toast.add({
         severity: 'error',

@@ -24,7 +24,7 @@ function getCardStyle() {
 </script>
 
 <template>
-  <PCard class="pm-clock" :style="getCardStyle()">
+  <PCard class="pm-card" :style="getCardStyle()">
     <template #header>
       <slot name="header" />
     </template>
@@ -44,10 +44,9 @@ function getCardStyle() {
 </template>
 
 <style lang="scss" scoped>
-.pm-clock {
+.pm-card {
   border: 1px solid var(--p-button-outlined-info-border-color);
   min-width: 300px;
-  max-height: 394px;
 
   @media screen and (min-width: 576px) {
     width: 465px;
